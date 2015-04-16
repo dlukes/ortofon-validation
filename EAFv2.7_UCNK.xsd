@@ -238,8 +238,7 @@ and that there are no constraints on characters that can be used in id's/names.
     <xsd:attribute name="PARTICIPANT" type="xsd:string" use="optional"/>
     <xsd:attribute name="ANNOTATOR" type="xsd:string" use="optional"/>
     <xsd:attribute name="LINGUISTIC_TYPE_REF" type="xsd:string" use="required"/>
-    <xsd:attribute name="DEFAULT_LOCALE" type="xsd:IDREF" use="required"
-                   fixed="cs"/>
+    <xsd:attribute name="DEFAULT_LOCALE" type="xsd:IDREF" use="optional"/>
     <xsd:attribute name="PARENT_REF" type="xsd:string" use="optional"/>
   </xsd:complexType>
 
