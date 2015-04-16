@@ -61,7 +61,18 @@ and that there are no constraints on characters that can be used in id's/names.
 	<xsd:element name="HEADER" type="headType"/>
 	<xsd:element name="TIME_ORDER" type="timeType"/>
 	<xsd:element name="TIER" type="tierType" minOccurs="0" maxOccurs="unbounded"/>
-	<xsd:element name="LINGUISTIC_TYPE" type="lingType" minOccurs="5" maxOccurs="5"/>
+	<!-- <xsd:element name="LINGUISTIC_TYPE" type="lingType" minOccurs="5" -->
+        <!--              maxOccurs="5"/> -->
+	<xsd:element name="LINGUISTIC_TYPE" type="ortType" minOccurs="1"
+                     maxOccurs="1"/>
+	<xsd:element name="LINGUISTIC_TYPE" type="fonType" minOccurs="1"
+                     maxOccurs="1"/>
+	<xsd:element name="LINGUISTIC_TYPE" type="metaType" minOccurs="1"
+                     maxOccurs="1"/>
+	<xsd:element name="LINGUISTIC_TYPE" type="anomType" minOccurs="1"
+                     maxOccurs="1"/>
+	<xsd:element name="LINGUISTIC_TYPE" type="METAType" minOccurs="1"
+                     maxOccurs="1"/>
 	<xsd:element name="LOCALE" type="localeType" minOccurs="1" maxOccurs="1"/>
 	<xsd:element name="CONSTRAINT" type="constraintType" minOccurs="4" maxOccurs="4"/>
 	<xsd:element name="CONTROLLED_VOCABULARY" type="convocType" minOccurs="2" maxOccurs="2"/>
@@ -262,6 +273,70 @@ and that there are no constraints on characters that can be used in id's/names.
     <xsd:attribute name="CONTROLLED_VOCABULARY_REF" type="xsd:string" use="optional"/>
     <xsd:attribute name="EXT_REF" type="xsd:IDREF" use="optional"/>
     <xsd:attribute name="LEXICON_REF" type="xsd:IDREF" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="ortType">
+    <xsd:complexContent>
+      <xsd:restriction base="lingType">
+        <xsd:attribute name="LINGUISTIC_TYPE_ID" use="required"
+                       type="xsd:string" fixed="ortografický"/>
+        <xsd:attribute name="TIME_ALIGNABLE" type="xsd:boolean" use="required"
+                       fixed="true"/>
+        <xsd:attribute name="CONTROLLED_VOCABULARY_REF" type="xsd:string"
+                       use="prohibited"/>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="metaType">
+    <xsd:complexContent>
+      <xsd:restriction base="lingType">
+        <xsd:attribute name="LINGUISTIC_TYPE_ID" use="required"
+                       type="xsd:string" fixed="meta"/>
+        <xsd:attribute name="TIME_ALIGNABLE" type="xsd:boolean" use="required"
+                       fixed="true"/>
+        <xsd:attribute name="CONTROLLED_VOCABULARY_REF" type="xsd:string"
+                       use="required" fixed="meta"/>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="anomType">
+    <xsd:complexContent>
+      <xsd:restriction base="lingType">
+        <xsd:attribute name="LINGUISTIC_TYPE_ID" use="required"
+                       type="xsd:string" fixed="anom"/>
+        <xsd:attribute name="TIME_ALIGNABLE" type="xsd:boolean" use="required"
+                       fixed="true"/>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="METAType">
+    <xsd:complexContent>
+      <xsd:restriction base="lingType">
+        <xsd:attribute name="LINGUISTIC_TYPE_ID" use="required"
+                       type="xsd:string" fixed="META"/>
+        <xsd:attribute name="TIME_ALIGNABLE" type="xsd:boolean" use="required"
+                       fixed="true"/>
+        <xsd:attribute name="CONTROLLED_VOCABULARY_REF" type="xsd:string"
+                       use="optional" fixed="META_VSE"/>
+      </xsd:restriction>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="fonType">
+    <xsd:complexContent>
+      <xsd:restriction base="lingType">
+        <xsd:attribute name="LINGUISTIC_TYPE_ID" use="required"
+                       type="xsd:string" fixed="fonetický"/>
+        <xsd:attribute name="TIME_ALIGNABLE" type="xsd:boolean" use="required"
+                       fixed="false"/>
+        <xsd:attribute name="CONSTRAINTS" type="xsd:IDREF" use="required"
+                       fixed="Symbolic_Association"/>
+      </xsd:restriction>
+    </xsd:complexContent>
   </xsd:complexType>
 
   <xsd:complexType name="localeType">
