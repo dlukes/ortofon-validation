@@ -349,8 +349,8 @@ and that there are no constraints on characters that can be used in id's/names.
   </xsd:complexType>
 
   <xsd:complexType name="localeType">
-    <xsd:attribute name="LANGUAGE_CODE" type="xsd:string" use="required" fixed="cs"/>
-    <xsd:attribute name="COUNTRY_CODE" type="xsd:string" use="required" fixed="CZ"/>
+    <xsd:attribute name="LANGUAGE_CODE" type="xsd:string" use="required"/>
+    <xsd:attribute name="COUNTRY_CODE" type="xsd:string" use="optional"/>
     <xsd:attribute name="VARIANT" type="xsd:string" use="optional"/>
   </xsd:complexType>
 
