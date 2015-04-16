@@ -61,17 +61,17 @@ and that there are no constraints on characters that can be used in id's/names.
 	<xsd:element name="HEADER" type="headType"/>
 	<xsd:element name="TIME_ORDER" type="timeType"/>
 	<xsd:element name="TIER" type="tierType" minOccurs="0" maxOccurs="unbounded"/>
-	<xsd:element name="LINGUISTIC_TYPE" type="lingType" minOccurs="0" maxOccurs="unbounded"/>
-	<xsd:element name="LOCALE" type="localeType" minOccurs="0" maxOccurs="unbounded"/>
-	<xsd:element name="CONSTRAINT" type="constraintType" minOccurs="0" maxOccurs="unbounded"/>
-	<xsd:element name="CONTROLLED_VOCABULARY" type="convocType" minOccurs="0" maxOccurs="unbounded"/>
-	<xsd:element name="LEXICON_REF" type="lexRefType" minOccurs="0" maxOccurs="unbounded"/>
-	<xsd:element name="EXTERNAL_REF" type="extRefType" minOccurs="0" maxOccurs="unbounded"/>
+	<xsd:element name="LINGUISTIC_TYPE" type="lingType" minOccurs="5" maxOccurs="5"/>
+	<xsd:element name="LOCALE" type="localeType" minOccurs="1" maxOccurs="1"/>
+	<xsd:element name="CONSTRAINT" type="constraintType" minOccurs="4" maxOccurs="4"/>
+	<xsd:element name="CONTROLLED_VOCABULARY" type="convocType" minOccurs="2" maxOccurs="2"/>
+	<xsd:element name="LEXICON_REF" type="lexRefType" minOccurs="0" maxOccurs="0"/>
+	<xsd:element name="EXTERNAL_REF" type="extRefType" minOccurs="0" maxOccurs="0"/>
       </xsd:sequence>
       <xsd:attribute name="DATE" type="xsd:dateTime" use="required"/>
       <xsd:attribute name="AUTHOR" type="xsd:string" use="required"/>
       <xsd:attribute name="VERSION" type="xsd:string" use="required"/>
-      <xsd:attribute name="FORMAT" type="xsd:string" use="optional" default="2.7"/>
+      <xsd:attribute name="FORMAT" type="xsd:string" use="required" fixed="2.7"/>
     </xsd:complexType>
 
     <!-- define key - keyref pairs -->
