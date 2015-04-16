@@ -225,11 +225,21 @@ and that there are no constraints on characters that can be used in id's/names.
     <xsd:sequence>
       <xsd:element name="ANNOTATION" type="annotationType" minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
-    <xsd:attribute name="TIER_ID" type="xsd:string" use="required"/>
+    <xsd:attribute name="TIER_ID" use="required">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:pattern value="\d+ (ort|fon|meta)"/>
+          <xsd:pattern value="META"/>
+          <xsd:pattern value="anom"/>
+          <xsd:pattern value="JO"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
     <xsd:attribute name="PARTICIPANT" type="xsd:string" use="optional"/>
     <xsd:attribute name="ANNOTATOR" type="xsd:string" use="optional"/>
     <xsd:attribute name="LINGUISTIC_TYPE_REF" type="xsd:string" use="required"/>
-    <xsd:attribute name="DEFAULT_LOCALE" type="xsd:IDREF" use="optional"/>
+    <xsd:attribute name="DEFAULT_LOCALE" type="xsd:IDREF" use="required"
+                   fixed="cs"/>
     <xsd:attribute name="PARENT_REF" type="xsd:string" use="optional"/>
   </xsd:complexType>
 
