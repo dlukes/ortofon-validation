@@ -65,7 +65,7 @@ def vocab_meta(tree):
 
     for meta in tree.xpath("//TIER[@LINGUISTIC_TYPE_REF = 'meta']//ANNOTATION_VALUE/text()"):
         if meta not in vocab:
-            raise VerificationError("{} is not allowed in a meta tier.".format(meta))
+            raise VerificationError("'{}' is not allowed in a meta tier.".format(meta))
 
 def vocab_META(tree):
     """Verify that META tier only has entries allowed by the constrained
@@ -100,7 +100,7 @@ def vocab_META(tree):
 
     for meta in tree.xpath("//TIER[@LINGUISTIC_TYPE_REF = 'META']//ANNOTATION_VALUE/text()"):
         if meta not in vocab:
-            raise VerificationError("{} is not allowed in a META tier.".format(meta))
+            raise VerificationError("'{}' is not allowed in a META tier.".format(meta))
 
 def tier_attribs(tree):
     """Verify that the tier attributes are consistent and conform to
