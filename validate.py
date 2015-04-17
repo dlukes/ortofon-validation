@@ -9,6 +9,7 @@ import sys
 import pdb
 
 from lxml import etree
+import re
 
 class VerificationError(Exception):
     def __init__(self, error_log):
@@ -144,8 +145,33 @@ def tier_attribs(tree):
             line = fon_tier.sourceline
             errors.append("{}:{}:0:VerificationError: The numeric prefixes of @TIER_ID and @PARENT_REF on a TIER with @LINGUISTIC_TYPE_REF = 'fonetický' should match.".format(url, line))
 
+    for tier in tree.xpath("//TIER"):
+        ltref = tier.get("LINGUISTIC_TYPE_REF", "")
+        tid = tier.get("TIER_ID", "")
+        if not valid_combination(ltref, tid):
+            line = tier.sourceline
+            errors.append("{}:{}:0:VerificationError: '{}' and '{}' is not a permitted combination of the @LINGUISTIC_TYPE_REF and @TIER_ID attributes.".format(url, line, ltref, tid))
+
     if errors:
         raise VerificationError(errors)
+
+def valid_combination(ltref, tid):
+    """Check that the arguments are a permitted combination of values for the
+    @LINGUISTIC_TYPE_REF and @TIER_ID attributes.
+
+    """
+    # the prefix of the tid can be any number 0-9 and a space
+    tid = re.sub(r"^[0-9] ", "", tid)
+    valid = set([
+        ("ortografický", "ort"),
+        ("ortografický", "JO"),
+        ("fonetický", "fon"),
+        ("meta", "meta"),
+        ("anom", "anom"),
+        ("META", "META")
+    ])
+
+    return True if (ltref, tid) in valid else False
 
 def hierarchy(tree):
     """Verify that some forbidden nesting of elements does not occur.
