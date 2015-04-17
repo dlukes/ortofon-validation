@@ -72,10 +72,13 @@ def vocab_meta(tree):
         "zívání"
     ])
     errors = []
+    url = tree.docinfo.URL
 
-    for meta in tree.xpath("//TIER[@LINGUISTIC_TYPE_REF = 'meta']//ANNOTATION_VALUE/text()"):
-        if meta not in vocab:
-            errors.append("'{}' is not allowed in a meta tier.".format(meta))
+    for meta in tree.xpath("//TIER[@LINGUISTIC_TYPE_REF = 'meta']//ANNOTATION_VALUE"):
+        text = meta.text
+        if text not in vocab:
+            line = meta.sourceline
+            errors.append("{}:{}:0:VerificationError: '{}' is not allowed in a meta tier.".format(url, line, text))
 
     if errors:
         raise VerificationError(errors)
@@ -111,10 +114,13 @@ def vocab_META(tree):
         "zvuky při jídle"
     ])
     errors = []
+    url = tree.docinfo.URL
 
-    for meta in tree.xpath("//TIER[@LINGUISTIC_TYPE_REF = 'META']//ANNOTATION_VALUE/text()"):
-        if meta not in vocab:
-            errors.append("'{}' is not allowed in a META tier.".format(meta))
+    for meta in tree.xpath("//TIER[@LINGUISTIC_TYPE_REF = 'META']//ANNOTATION_VALUE"):
+        text = meta.text
+        if text not in vocab:
+            line = meta.sourceline
+            errors.append("{}:{}:0:VerificationError: '{}' is not allowed in a META tier.".format(url, line, text))
 
     if errors:
         raise VerificationError(errors)
@@ -125,15 +131,18 @@ def tier_attribs(tree):
 
     """
     errors = []
+    url = tree.docinfo.URL
 
-    if tree.xpath("//TIER[@LINGUISTIC_TYPE_REF = 'fonetický' and not(@PARENT_REF)]"):
-        errors.append("TIERs with @LINGUISTIC_TYPE_REF = 'fonetický' should have a @PARENT_REF attribute.")
+    for fon_tier in tree.xpath("//TIER[@LINGUISTIC_TYPE_REF = 'fonetický' and not(@PARENT_REF)]"):
+        line = fon_tier.sourceline
+        errors.append("{}:{}:0:VerificationError: TIERs with @LINGUISTIC_TYPE_REF = 'fonetický' should have a @PARENT_REF attribute.".format(url, line))
 
     for fon_tier in tree.xpath("//TIER[@LINGUISTIC_TYPE_REF = 'fonetický']"):
-        tier_id_prefix = fon_tier.attrib["TIER_ID"].split(" ")[0]
-        parent_ref_prefix = fon_tier.attrib["PARENT_REF"].split(" ")[0]
+        tier_id_prefix = fon_tier.get("TIER_ID", "").split(" ")[0]
+        parent_ref_prefix = fon_tier.get("PARENT_REF", "").split(" ")[0]
         if not tier_id_prefix == parent_ref_prefix:
-            errors.append("The numeric prefixes of @TIER_ID and @PARENT_REF on a TIER with @LINGUISTIC_TYPE_REF = 'fonetický' should match.")
+            line = fon_tier.sourceline
+            errors.append("{}:{}:0:VerificationError: The numeric prefixes of @TIER_ID and @PARENT_REF on a TIER with @LINGUISTIC_TYPE_REF = 'fonetický' should match.".format(url, line))
 
     if errors:
         raise VerificationError(errors)
@@ -143,6 +152,7 @@ def hierarchy(tree):
 
     """
     errors = []
+    url = tree.docinfo.URL
 
     if tree.xpath("//TIER[@PARENT_REF]//ALIGNABLE_ANNOTATION"):
         errors.append("ALIGNABLE_ANNOTATIONs are not allowed on a TIER with a @PARENT_REF attribute.")
