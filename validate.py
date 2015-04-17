@@ -126,17 +126,23 @@ def hierarchy(tree):
         raise VerificationError("ALIGNABLE_ANNOTATIONs are not allowed on a TIER with a @PARENT_REF attribute.")
 
 schema_root = etree.parse("EAFv2.7_UCNK.xsd").getroot()
-schema_obj = etree.XMLSchema(schema_root)
-parser = etree.XMLParser(schema = schema_obj)
+schema = etree.XMLSchema(schema_root)
 ERRORS = False
 
 for f in sys.argv[1:]:
     try:
-        tree = etree.parse(f, parser)
+        tree = etree.parse(f)
+        schema.assertValid(tree)
     except etree.XMLSyntaxError as e:
+        # syntax error → file cannot be parsed → jump to next iteration
+        # (additional verifications don't make sense if file cannot be parsed)
         ERRORS = True
-        sys.stderr.write("Validation error in {}: {}\n".format(f, str(e)))
+        sys.stderr.write("File {} is malformed XML.\n".format(f))
         continue
+    except etree.DocumentInvalid as validation_errors:
+        ERRORS = True
+        sys.stderr.write("Validation error(s) in {}:\n  ".format(f))
+        sys.stderr.write("\n  ".join(map(str, validation_errors.error_log)))
 
     try:
         verify(tree)
